@@ -2,6 +2,8 @@
 
 A web-based simulator for testing various roulette betting strategies with detailed analytics and visualization.
 
+You can try it on [here!](https://roulettesimulator.git.ivlis.kr)
+
 [English](#english) | [한국어](#korean) | [日本語](#japanese) | [中文](#chinese)
 
 ## <a name="english"></a>English
