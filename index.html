@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roulette Strategy Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="language-selector">
+          <select id="language-select" class="input">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+        <h1 id="title">Roulette Strategy Simulator</h1>
+        <p id="subtitle">
+          Simulate various betting strategies and analyze the results
+        </p>
+      </header>
+
+      <div class="card-container">
+        <!-- 룰렛 휠 섹션 -->
+        <div class="card roulette-card">
+          <h2>
+            <i class="fas fa-sync-alt"></i>
+            <span id="roulette-wheel-title">Roulette Wheel</span>
+          </h2>
+          <div class="roulette-container">
+            <div class="roulette-wheel">
+              <div class="wheel-outer">
+                <div class="wheel-inner">
+                  <div class="wheel-center"></div>
+                </div>
+              </div>
+              <div class="ball"></div>
+            </div>
+            <div class="result-display">
+              <div class="number-display">0</div>
+              <div class="color-display"></div>
+            </div>
+          </div>
+          <button id="spin-button" class="button primary">
+            <i class="fas fa-play"></i> <span id="spin">Spin</span>
+          </button>
+        </div>
+
+        <!-- 베팅 시스템 섹션 -->
+        <div class="card betting-card">
+          <h2>
+            <i class="fas fa-cog"></i>
+            <span id="betting-system-title">Betting System</span>
+          </h2>
+          <div class="input-group">
+            <label for="betting-strategy" data-i18n="betting_strategy"
+              >Betting Strategy:</label
+            >
+            <select id="betting-strategy" class="input">
+              <option value="martingale" data-i18n="martingale_full">
+                Martingale
+              </option>
+              <option value="fibonacci" data-i18n="fibonacci_full">
+                Fibonacci
+              </option>
+              <option value="labouchere" data-i18n="labouchere_full">
+                Labouchere
+              </option>
+              <option value="dalembert" data-i18n="dalembert_full">
+                D'Alembert
+              </option>
+              <option value="paroli" data-i18n="paroli_full">Paroli</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="betting-option" data-i18n="betting_option"
+              >Betting Option:</label
+            >
+            <select id="betting-option" class="input">
+              <option value="red" data-i18n="red_full">Red</option>
+              <option value="black" data-i18n="black_full">Black</option>
+              <option value="even" data-i18n="even_full">Even</option>
+              <option value="odd" data-i18n="odd_full">Odd</option>
+              <option value="high" data-i18n="high_full">
+                High Numbers (19-36)
+              </option>
+              <option value="low" data-i18n="low_full">
+                Low Numbers (1-18)
+              </option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="initial-bet" data-i18n="initial_bet"
+              >Initial Bet ($):</label
+            >
+            <input
+              type="number"
+              id="initial-bet"
+              class="input"
+              value="100000"
+              min="1000"
+            />
+          </div>
+          <div class="input-group">
+            <label for="starting-balance" data-i18n="starting_balance"
+              >Starting Balance ($):</label
+            >
+            <input
+              type="number"
+              id="starting-balance"
+              class="input"
+              value="10000000"
+              min="100000"
+            />
+          </div>
+          <div class="input-group">
+            <label for="max-bet" data-i18n="max_bet">Maximum Bet ($):</label>
+            <input
+              type="number"
+              id="max-bet"
+              class="input"
+              value="5000000"
+              min="10000"
+            />
+          </div>
+          <div
+            class="input-group"
+            id="labouchere-sequence-group"
+            style="display: none"
+          >
+            <label for="labouchere-sequence" data-i18n="labouchere_sequence"
+              >Labouchere Sequence (comma separated):</label
+            >
+            <input
+              type="text"
+              id="labouchere-sequence"
+              class="input"
+              value="1,2,3,4,5"
+            />
+          </div>
+        </div>
+
+        <!-- 시뮬레이션 섹션 -->
+        <div class="card simulation-card">
+          <h2>
+            <i class="fas fa-chart-line"></i>
+            <span id="simulation-title">Simulation</span>
+          </h2>
+          <div class="input-group">
+            <label for="simulation-spins" data-i18n="simulation_spins"
+              >Number of Spins:</label
+            >
+            <input
+              type="number"
+              id="simulation-spins"
+              class="input"
+              value="100"
+              min="1"
+              max="1000"
+            />
+          </div>
+          <button id="run-simulation-button" class="button primary">
+            <i class="fas fa-cogs"></i>
+            <span id="run_simulation">Run Simulation</span>
+          </button>
+          <button id="reset-button" class="button secondary">
+            <i class="fas fa-redo"></i> <span data-i18n="reset">Reset</span>
+          </button>
+          <div class="simulation-stats">
+            <div class="stat-item">
+              <div
+                class="stat-label current-balance-label"
+                data-i18n="current_balance"
+              >
+                Current Balance
+              </div>
+              <div class="stat-value" id="current-balance">$1000</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label current-bet-label" data-i18n="current_bet">
+                Current Bet
+              </div>
+              <div class="stat-value" id="current-bet">$10</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label total-spins-label" data-i18n="total_spins">
+                Total Spins
+              </div>
+              <div class="stat-value" id="total-spins">0</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label wins-label" data-i18n="wins">Wins</div>
+              <div class="stat-value" id="wins">0</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label losses-label" data-i18n="losses">
+                Losses
+              </div>
+              <div class="stat-value" id="losses">0</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label win-rate-label" data-i18n="win_rate">
+                Win Rate
+              </div>
+              <div class="stat-value" id="win-rate">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 배팅 내역 섹션 (새로 추가) -->
+        <div class="card history-card">
+          <h2>
+            <i class="fas fa-history"></i>
+            <span id="betting-history-title">Betting History</span>
+          </h2>
+          <div class="history-container">
+            <table id="betting-history-table">
+              <thead>
+                <tr>
+                  <th>Round</th>
+                  <th>Number</th>
+                  <th>Bet Amount</th>
+                  <th>Result</th>
+                  <th>Balance</th>
+                </tr>
+              </thead>
+              <tbody id="betting-history-body">
+                <tr id="no-betting-history">
+                  <td colspan="5">No betting history yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button
+            id="clear-history-button"
+            class="button secondary"
+            style="margin-top: 1rem"
+          >
+            <i class="fas fa-trash"></i>
+            <span data-i18n="clear_history">Clear History</span>
+          </button>
+        </div>
+
+        <!-- 결과 차트 섹션 -->
+        <div class="card results-card">
+          <h2>
+            <i class="fas fa-chart-bar"></i>
+            <span id="results-analysis-title">Results Analysis</span>
+          </h2>
+          <div class="tabs">
+            <div
+              class="tab active"
+              data-tab="balance-tab"
+              data-i18n="balance_change"
+            >
+              Balance Change
+            </div>
+            <div class="tab" data-tab="bet-tab" data-i18n="bet_change">
+              Bet Size Change
+            </div>
+            <div class="tab" data-tab="summary-tab" data-i18n="result_summary">
+              Result Summary
+            </div>
+          </div>
+          <div class="tab-content active" id="balance-tab">
+            <div class="chart-container">
+              <canvas id="balance-chart"></canvas>
+            </div>
+          </div>
+          <div class="tab-content" id="bet-tab">
+            <div class="chart-container">
+              <canvas id="bet-chart"></canvas>
+            </div>
+          </div>
+          <div class="tab-content" id="summary-tab">
+            <div
+              class="result-summary"
+              id="result-summary"
+              data-i18n="run_simulation_to_see_results"
+            >
+              Run a simulation to see the results.
+            </div>
+          </div>
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <span
+                class="summary-label"
+                id="max-consecutive-losses-label"
+                data-i18n="max_consecutive_losses"
+                >Max Consecutive Losses:</span
+              >
+              <span class="summary-value" id="max-consecutive-losses">0</span>
+            </div>
+            <div class="summary-stat">
+              <span
+                class="summary-label"
+                id="max-drawdown-label"
+                data-i18n="max_drawdown"
+                >Max Drawdown:</span
+              >
+              <span class="summary-value" id="max-drawdown">$0</span>
+            </div>
+            <div class="summary-stat">
+              <span
+                class="summary-label"
+                id="max-balance-label"
+                data-i18n="max_balance"
+                >Max Balance:</span
+              >
+              <span class="summary-value" id="max-balance">$0</span>
+            </div>
+            <div class="summary-stat">
+              <span
+                class="summary-label"
+                id="min-balance-label"
+                data-i18n="min_balance"
+                >Min Balance:</span
+              >
+              <span class="summary-value" id="min-balance">$0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 전략 설명 섹션 -->
+        <div class="card strategy-card">
+          <h2>
+            <i class="fas fa-lightbulb"></i>
+            <span id="strategy-explanation-title">Strategy Explanation</span>
+          </h2>
+          <div id="strategy-explanation">
+            <h3 id="current-strategy-title" data-i18n="martingale">
+              Martingale
+            </h3>
+            <p
+              id="current-strategy-explanation"
+              data-i18n="martingale_explanation"
+            >
+              The most classic and simple betting system. Double your bet after
+              each loss, and return to the initial bet after a win.
+              Theoretically, you can recover all losses with a single win, but
+              there's a risk of exponential bet increases during losing streaks.
+            </p>
+
+            <h3 id="tips-and-warnings-title" data-i18n="tips_and_warnings">
+              Tips and Warnings
+            </h3>
+            <ul
+              class="tips-list"
+              style="
+                padding-left: 1.5rem;
+                color: var(--text-light);
+                font-size: 0.9rem;
+              "
+            >
+              <li id="tip-1" data-i18n="tip_1">
+                In real casinos, table limits prevent infinite progression of
+                the Martingale strategy.
+              </li>
+              <li id="tip-2" data-i18n="tip_2">
+                The Labouchere strategy has lower risk when the sequence is kept
+                short.
+              </li>
+              <li id="tip-3" data-i18n="tip_3">
+                The Fibonacci strategy has more gradual bet increases than
+                Martingale, but requires more wins to recover losses.
+              </li>
+              <li id="tip-4" data-i18n="tip_4">
+                The D'Alembert strategy is conservative but will result in
+                losses if the win rate is below 50% in the long run.
+              </li>
+              <li id="tip-5" data-i18n="tip_5">
+                The Paroli strategy can maximize profits during winning streaks,
+                but winning streaks are rare so it often resets.
+              </li>
+              <li id="tip-6" data-i18n="tip_6">
+                No betting system can overcome the mathematical edge of the
+                casino in the long run.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p id="footer">
+          © 2023 Roulette Strategy Simulator | Do not apply to real gambling
+        </p>
+      </footer>
+    </div>
+
+    <script src="lang/ko.js"></script>
+    <script src="lang/en.js"></script>
+    <script src="lang/ja.js"></script>
+    <script src="lang/zh.js"></script>
+    <script src="i18n.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

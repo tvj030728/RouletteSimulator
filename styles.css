@@ -1,0 +1,568 @@
+:root {
+  --primary-color: #007aff;
+  --secondary-color: #5856d6;
+  --success-color: #34c759;
+  --danger-color: #ff3b30;
+  --warning-color: #ffcc00;
+  --background-color: #f5f5f7;
+  --card-background: #ffffff;
+  --text-color: #1d1d1f;
+  --text-light: #86868b;
+  --border-radius: 12px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --transition: all 0.2s ease;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+/* 언어 선택기 스타일 */
+.language-container {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+.language-container label {
+  margin-right: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+#language-selector {
+  background-color: #2c3e50;
+  color: #fff;
+  border: 1px solid #34495e;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#language-selector:hover {
+  background-color: #34495e;
+}
+
+#language-selector option {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+header p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+/* PC 화면에서의 레이아웃 */
+@media (min-width: 1200px) {
+  .roulette-card {
+    grid-column: span 3;
+  }
+
+  .betting-card {
+    grid-column: span 3;
+  }
+
+  .simulation-card {
+    grid-column: span 3;
+  }
+
+  .history-card {
+    grid-column: span 3;
+  }
+
+  .results-card {
+    grid-column: span 6;
+  }
+
+  .strategy-card {
+    grid-column: span 6;
+  }
+}
+
+/* 태블릿 화면에서의 레이아웃 */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .card-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .roulette-card,
+  .betting-card,
+  .simulation-card,
+  .history-card {
+    grid-column: span 3;
+  }
+
+  .results-card,
+  .strategy-card {
+    grid-column: span 6;
+  }
+}
+
+/* 모바일 화면에서의 레이아웃 */
+@media (max-width: 767px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    grid-column: span 1;
+  }
+
+  .language-container {
+    position: relative;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+.card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+h2 {
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h2 i {
+  color: var(--primary-color);
+}
+
+h3 {
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.input {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: rgba(0, 0, 0, 0.02);
+  color: var(--text-color);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+}
+
+.button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-right: 8px;
+  margin-bottom: 16px;
+}
+
+.button.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.button.secondary {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text-color);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.button.primary:hover {
+  background-color: #0070e8;
+}
+
+.button.secondary:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 룰렛 휠 스타일링 */
+.roulette-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.roulette-wheel {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin-bottom: 1.5rem;
+}
+
+.wheel-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #32383e;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.5);
+  transform: rotate(0deg);
+  transition: transform 5s cubic-bezier(0.35, 0, 0.25, 1);
+}
+
+.wheel-number {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  transform-origin: center center;
+}
+
+.wheel-number.red {
+  background-color: #e81e25;
+}
+
+.wheel-number.black {
+  background-color: #1e1e1e;
+}
+
+.wheel-number.green {
+  background-color: #00a651;
+}
+
+.ball {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #cccccc);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  opacity: 0;
+}
+
+.spin-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.result-number {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.result-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+
+/* 통계 컨테이너 */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+
+.stat-item {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* 차트 컨테이너 */
+.chart-container {
+  margin-bottom: 1.5rem;
+  height: 200px;
+}
+
+.result-summary {
+  padding: 16px;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* 전략 설명 섹션 */
+.strategy-explanation {
+  padding: 16px;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+.strategy-explanation p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+/* 배팅 내역 테이블 */
+.history-container {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bet-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.bet-history-table th,
+.bet-history-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.bet-history-table th {
+  font-weight: 600;
+  color: var(--text-color);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.bet-history-table tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.bet-history-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.win {
+  color: var(--success-color);
+}
+
+.loss {
+  color: var(--danger-color);
+}
+
+.alert {
+  color: var(--danger-color);
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+footer {
+  margin-top: 3rem;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+/* 애니메이션 효과 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ballMove {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(120px) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) translateX(120px)
+      rotate(-360deg);
+  }
+}
+
+/* 로딩 애니메이션 */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+/* 툴팁 스타일 */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.8rem;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* 탭 스타일 */
+.tabs {
+  display: flex;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+}
+
+.tab.active {
+  border-bottom-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
